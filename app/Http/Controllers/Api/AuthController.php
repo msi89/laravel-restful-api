@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Controllers\Api\BaseController as BaseController;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -63,13 +63,13 @@ class AuthController extends BaseController
         return response()->json(['data' => 'User logged out.'], 200);
     }
 
-    /* details api 
+    /* user api 
      * 
      * @return \Illuminate\Http\Response 
      */ 
-    public function details() 
+    public function user() 
     { 
         $user =Auth::guard('api')->user();// Auth::user(); 
-        return response()->json(['success' => $user], 201); 
+        return $this->sendResponse($user, '', 200);
     } 
 }

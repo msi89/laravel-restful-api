@@ -14,6 +14,9 @@ php artisan migrate
 # Generate keys
 php artisan passport:install
 
+# Publish the cors
+php artisan vendor:publish --provider="Barryvdh\Cors\ServiceProvider"
+
 # 1) OauthLogin: method:POST, URL:http://localhost:8000/oauth/token
 {
  username: 'fgf@hgg.fgf'

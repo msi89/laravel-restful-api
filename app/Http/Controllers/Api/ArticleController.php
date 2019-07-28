@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use Validator;
-use App\Http\Models\Product;
 
+use App\Http\Models\Article;
 use Illuminate\Http\Request;
-use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 
-
-class ProductController extends BaseController
+class ArticleController extends BaseController
 {
+   
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +18,8 @@ class ProductController extends BaseController
      */
     public function index()
     {
-        $products = Product::all();
-        return $this->sendResponse($products->toArray(), 'Products retrieved successfully.');
+        $articles = Article::all();
+        return $this->sendResponse($articles->toArray(),'');
     }
 
 
@@ -32,23 +32,15 @@ class ProductController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
-
-
         $validator = Validator::make($input, [
             'name' => 'required',
             'detail' => 'required'
         ]);
-
-
         if($validator->fails()){
             return $this->sendError('Validation error.', $validator->errors());       
         }
-
-
-        $product = Product::create($input);
-
-
-        return $this->sendResponse($product->toArray(), 'Product created successfully.');
+        $article = Article::create($input);
+        return $this->sendResponse($article->toArray(),'', 201);
     }
 
 
@@ -60,15 +52,11 @@ class ProductController extends BaseController
      */
     public function show($id)
     {
-        $product = Product::find($id);
-
-
-        if (is_null($product)) {
-            return $this->sendError('Product not found.');
+        $article = Article::find($id);
+        if (is_null($article)) {
+            return $this->sendError('Article not found.');
         }
-
-
-        return $this->sendResponse($product->toArray(), 'Product retrieved successfully.');
+        return $this->sendResponse($article->toArray(),'');
     }
 
 
@@ -79,28 +67,20 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Article $article)
     {
         $input = $request->all();
-
-
         $validator = Validator::make($input, [
             'name' => 'required',
             'detail' => 'required'
         ]);
-
-
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-
-
-        $product->name = $input['name'];
-        $product->detail = $input['detail'];
-        $product->save();
-
-
-        return $this->sendResponse($product->toArray(), 'Product updated successfully.');
+        $article->name = $input['name'];
+        $article->detail = $input['detail'];
+        $article->save();
+        return $this->sendResponse($article->toArray(),'', 201);
     }
 
 
@@ -110,11 +90,10 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Article $article)
     {
-        $product->delete();
-
-
-        return $this->sendResponse($product->toArray(), 'Product deleted successfully.');
+        $article->delete();
+        return $this->sendResponse($article->toArray(),'', 201);
     }
+  
 }
